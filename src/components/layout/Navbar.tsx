@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 export default function Navbar() {
   return (
@@ -20,6 +21,7 @@ export default function Navbar() {
             <Link href="/register" className="bg-brand-primary hover:bg-brand-hover text-white px-6 py-2.5 rounded-full font-medium transition-all hover-lift">
               Get Started
             </Link>
+            <ThemeToggle />
           </div>
         </div>
       </div>
