@@ -71,5 +71,11 @@ PG Academy revolves around robust role management and security:
 - Private video storage, streamed via signed HLS URLs.
 - Automated daily PostgreSQL backups.
 
+## 📂 Documentation & Roadmaps
+
+To track our development progress and sprint estimates, please refer to the:
+- [Agile Sprint Roadmap & Estimates](./docs/roadmap.md)
+- [Database Schema Outline](./docs/database_schema.md)
+
 ---
 *Created as part of the PG Academy Agile Development Cycle at Zarqa University.*
