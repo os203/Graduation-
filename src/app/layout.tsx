@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { cn } from "@/lib/utils";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -23,13 +25,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("h-full", "antialiased", outfit.variable, "font-sans", geist.variable)}>
-      <body className="min-h-full flex flex-col selection:bg-brand-accent selection:text-white">
-        <Navbar />
-        <main className="flex-grow pt-20 flex flex-col">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en" className={cn("h-full", "antialiased", outfit.variable, "font-sans", geist.variable)} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col selection:bg-brand-accent selection:text-white transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider>
+            <Navbar />
+            <main className="flex-grow pt-20 flex flex-col">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
