@@ -34,35 +34,6 @@
   --radius: 0.625rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Auto dark mode preference setup */
-    --background: 222 47% 7%; /* Maps to approx #0B0F19 */
-    --foreground: 210 40% 98%;
-    
-    --color-primary: #818cf8;
-    --color-primary-hover: #a5b4fc;
-    --color-accent: #c084fc;
-    --color-accent-hover: #d8b4fe;
-
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 238 81% 74%; /* matches #818cf8 */
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 271 91% 75%; /* matches #c084fc */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 238 81% 74%;
-  }
-}
 
 .dark {
   /* Forced dark mode support */
@@ -120,7 +91,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     background-image: radial-gradient(ellipse at top, rgba(168, 85, 247, 0.08), transparent 40%),
