@@ -10,18 +10,14 @@ try {
     if (!match) continue
     const [, key, value] = match
     if (process.env[key] === undefined) {
-      process.env[key] = value.replace(/^"(.*)"$/s, '$1')
+      process.env[key] = value.replace(/^"(.*)"$/, '$1')
     }
   }
 } catch {
 }
 
 export default defineConfig({
-  earlyAccess: true,
   datasource: {
-    url: process.env.DATABASE_URL ?? '',
-  },
-  migrations: {
     url: process.env.DATABASE_URL ?? '',
   },
 })
