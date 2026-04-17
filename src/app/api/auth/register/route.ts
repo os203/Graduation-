@@ -45,14 +45,23 @@ export async function POST(req: Request) {
         email: user.email,
         role: user.role,
       },
-      token: accessToken
     }, { status: 201 });
+
+    response.cookies.set({
+      name: 'token',
+      value: accessToken,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 15 * 60, // 15 minutes
+    });
 
     response.cookies.set({
       name: 'refresh_token',
       value: refreshToken,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'lax',
       path: '/',
       maxAge: 7 * 24 * 60 * 60, // 7 days

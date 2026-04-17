@@ -34,15 +34,26 @@ export async function POST() {
 
     const accessToken = await signAccessToken(payload);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
       },
-      token: accessToken
     });
+
+    response.cookies.set({
+      name: 'token',
+      value: accessToken,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 15 * 60, // 15 minutes
+    });
+
+    return response;
 
   } catch (error: unknown) {
     console.error('Refresh Error:', error);
