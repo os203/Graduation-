@@ -16,7 +16,7 @@ export const registerSchema = z.object({
     
   password: z
     .string()
-    .min(8, { message: "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل" })
+    .min(8, { message: "Password must be at least 8 characters long" })
     .regex(/[A-Z]/, { message: "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل" })
     .regex(/[0-9]/, { message: "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل" }),
 });
