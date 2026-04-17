@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // 1. التحقق من صحة المدخلات (Zod Validation)
     const validation = loginSchema.safeParse(body);
 
     if (!validation.success) {
@@ -19,40 +18,35 @@ export async function POST(req: Request) {
 
     const { email, password } = validation.data;
 
-    // 2. البحث عن المستخدم في قاعدة البيانات (PG Academy DB)
     const user = await db.user.findUnique({
       where: { email },
     });
 
     if (!user) {
       return NextResponse.json(
-        { error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' }, 
+        { error: 'Invalid credentials' }, 
         { status: 401 }
       );
     }
 
-    // 3. التحقق من مطابقة كلمة المرور المشفرة
     const isMatch = await comparePasswords(password, user.password);
 
     if (!isMatch) {
       return NextResponse.json(
-        { error: 'البريد الإلكتروني أو كلمة المرور غير صحيحة' }, 
+        { error: 'Invalid credentials' }, 
         { status: 401 }
       );
     }
 
-    // 4. تجهيز بيانات التوكن (Payload)
     const tokenPayload = {
       userId: user.id,
       email: user.email,
       role: user.role,
     };
 
-    // 5. توليد التوكنات
     const accessToken = await signAccessToken(tokenPayload);
     const refreshToken = await signRefreshToken(tokenPayload);
 
-    // 6. إرسال الرد وضبط الكوكيز (HttpOnly)
     const response = NextResponse.json({
       user: {
         id: user.id,
@@ -66,11 +60,11 @@ export async function POST(req: Request) {
     response.cookies.set({
       name: 'refresh_token',
       value: refreshToken,
-      httpOnly: true, // حماية من سرقة التوكن عبر JavaScript
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 7 * 24 * 60 * 60, // أسبوع واحد
+      maxAge: 7 * 24 * 60 * 60,
     });
 
     return response;
@@ -78,7 +72,7 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     console.error('Login Error:', error);
     return NextResponse.json(
-      { error: 'حدث خطأ داخلي في الخادم' }, 
+      { error: 'Internal Server Error' }, 
       { status: 500 }
     );
   }

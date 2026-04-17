@@ -7,18 +7,18 @@ import { z } from "zod";
 export const registerSchema = z.object({
   name: z
     .string()
-    .min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" })
-    .max(50, { message: "لا يمكن أن يتجاوز الاسم 50 حرفاً" }),
+    .min(2, { message: "Name must be at least 2 characters long" })
+    .max(50, { message: "Name cannot exceed 50 characters" }),
     
   email: z
     .string()
-    .email({ message: "صيغة البريد الإلكتروني غير صالحة" }), 
+    .email({ message: "Invalid email address format" }), 
     
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters long" })
-    .regex(/[A-Z]/, { message: "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل" })
-    .regex(/[0-9]/, { message: "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل" }),
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" }),
 });
 
 /**
@@ -27,9 +27,9 @@ export const registerSchema = z.object({
 export const loginSchema = z.object({
   email: z
     .string()
-    .email({ message: "صيغة البريد الإلكتروني غير صالحة" }),
+    .email({ message: "Invalid email address" }),
     
   password: z
     .string()
-    .min(1, { message: "كلمة المرور مطلوبة" }),
+    .min(1, { message: "Password is required" }),
 });

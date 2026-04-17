@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, signAccessToken, signRefreshToken } from '@/lib/auth';
-import { registerSchema } from '@/lib/validations/auth'; // استيراد الـ Schema اللي عملناه
+import { registerSchema } from '@/lib/validations/auth';
 
 export async function POST(req: Request) {
   try {
@@ -16,7 +16,6 @@ export async function POST(req: Request) {
       );
     }
 
-
     const { name, email, password } = validation.data;
 
     const existingUser = await db.user.findUnique({
@@ -25,12 +24,11 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: 'هذا البريد الإلكتروني مسجل بالفعل' }, 
+        { error: 'Email already registered' }, 
         { status: 409 }
       );
     }
 
-    // 3. تشفير كلمة المرور
     const hashedPassword = await hashPassword(password);
 
     const user = await db.user.create({
@@ -50,7 +48,6 @@ export async function POST(req: Request) {
 
     const accessToken = await signAccessToken(tokenPayload);
     const refreshToken = await signRefreshToken(tokenPayload);
-
    
     const response = NextResponse.json({
       user: {
@@ -77,8 +74,8 @@ export async function POST(req: Request) {
   } catch (error: unknown) {
     console.error('Registration Error:', error);
     return NextResponse.json(
-      { error: 'حدث خطأ داخلي في الخادم' }, 
+      { error: 'Internal Server Error' }, 
       { status: 500 }
     );
   }
-}
+}
