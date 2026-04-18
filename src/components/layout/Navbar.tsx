@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import MobileMenu from "../ui/mobileMenu";
+
+
 
 export default function Navbar() {
+
   return (
     <nav className="fixed top-0 w-full z-50 glass">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,6 +27,7 @@ export default function Navbar() {
             </Link>
             <ThemeToggle />
           </div>
+            <MobileMenu />
         </div>
       </div>
     </nav>
