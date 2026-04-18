@@ -50,6 +50,7 @@ The project is built around the principle of "Keep it simple — one server, one
 | :--- | :--- | :--- |
 | **Frontend & Backend** | Next.js 14 | One unified project for the website and API. |
 | **Database** | PostgreSQL + Prisma ORM | Reliable schema-driven DB; Prisma prevents SQL injection. |
+| **Database Deployment** | Shared server or remote DB | Set `DATABASE_URL` to the shared PostgreSQL host to allow all users to store and read the same data. |
 | **Video Streaming** | HLS via Nginx | Videos stream in chunks — cannot be downloaded directly. |
 | **Login / Sessions** | JWT Tokens | Secure authentication with short-lived tokens and refreshes. |
 | **AI Assistant** | OpenAI API / Azure AI + RAG | Context-aware AI reads course content before answering. |

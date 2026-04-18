@@ -56,8 +56,17 @@ export async function POST(req: Request) {
         email: user.email,
         role: user.role,
       },
-      token: accessToken
     }, { status: 201 });
+
+    response.cookies.set({
+      name: 'token',
+      value: accessToken,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 15 * 60, // 15 minutes
+    });
 
     response.cookies.set({
       name: 'refresh_token',
@@ -66,7 +75,7 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 7 * 24 * 60 * 60, 
+      maxAge: 7 * 24 * 60 * 60, // 7 days
     });
 
     return response;
@@ -78,4 +87,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+}

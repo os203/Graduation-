@@ -12,19 +12,16 @@ export interface User {
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (userData: User, token: string) => void;
+  login: (userData: User) => void;
   logout: () => void;
-  setToken: (token: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -34,15 +31,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
-        setToken(data.token);
       } else {
         setUser(null);
-        setToken(null);
       }
     } catch (error) {
       console.error('Silent refresh failed', error);
       setUser(null);
-      setToken(null);
     } finally {
       setIsLoading(false);
     }
@@ -63,9 +57,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => clearInterval(interval);
   }, [user]);
 
-  const login = (userData: User, accessToken: string) => {
+  const login = (userData: User) => {
     setUser(userData);
-    setToken(accessToken);
   };
 
   const logout = async () => {
@@ -75,12 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.error('Logout error', e);
     }
     setUser(null);
-    setToken(null);
     router.push('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!user, isLoading, login, logout, setToken }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

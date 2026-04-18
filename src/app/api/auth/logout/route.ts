@@ -1,16 +1,21 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 /**
  * Terminate user session by clearing authentication cookies
  */
 export async function POST() {
   try {
+    const cookieStore = await cookies();
+    cookieStore.delete('token');
+    cookieStore.delete('refresh_token');
+
     const response = NextResponse.json(
       { message: "Logged out successfully" },
       { status: 200 }
     );
-
-    // Invalidate refresh token by setting expiry to epoch
+    
+    // Invalidate refresh token by setting expiry to epoch (fallback)
     response.cookies.set('refresh_token', '', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

@@ -37,7 +37,7 @@ export default function RegisterPage() {
         throw new Error(data.error || 'Something went wrong');
       }
 
-      login(data.user, data.token);
+      login(data.user);
       router.push('/');
     } catch (err: unknown) {
       if (err instanceof Error) {
