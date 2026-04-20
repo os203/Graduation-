@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher"
 
 export default function MobileMenu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -84,6 +85,8 @@ export default function MobileMenu() {
                         Sign In
                     </Link>
 
+                    <LanguageSwitcher />
+
                     <Link
                         href="/register"
                         onClick={() => setIsOpen(false)}
@@ -91,6 +94,9 @@ export default function MobileMenu() {
                     >
                         Get Started
                     </Link>
+
+                    
+
 
                 </div>
             </div>

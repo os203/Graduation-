@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
+import { cookies } from 'next/headers';
+import {NextIntlClientProvider} from 'next-intl';
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const outfit = Outfit({
@@ -19,14 +22,17 @@ export const metadata: Metadata = {
   description: "A unique AI Learning Management System designed explicitly for Arab markets.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = (await cookies()).get('locale')?.value || 'en';
+
   return (
-    <html lang="en" className={cn("h-full", "antialiased", outfit.variable, "font-sans", geist.variable)} suppressHydrationWarning>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={cn("h-full", "antialiased", outfit.variable, "font-sans", geist.variable)} suppressHydrationWarning>
       <body className="min-h-full flex flex-col selection:bg-brand-accent selection:text-white transition-colors duration-300">
+         <NextIntlClientProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <Navbar />
@@ -36,6 +42,7 @@ export default function RootLayout({
             <Footer />
           </AuthProvider>
         </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
