@@ -37,7 +37,7 @@ export default function LoginPage() {
       }
 
       login(data.user);
-      router.push('/');
+      router.push(`/dashboard/${data.user.role.toLowerCase()}`);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

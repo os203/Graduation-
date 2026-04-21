@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, JwtPayload } from '@/lib/auth';
 
 function getRequiredRole(pathname: string): JwtPayload['role'] | null {
-  if (pathname.startsWith('/admin')) return 'ADMIN';
-  if (pathname.startsWith('/instructor')) return 'INSTRUCTOR';
-  if (pathname.startsWith('/student')) return 'STUDENT';
+  if (pathname.startsWith('/dashboard/admin')) return 'ADMIN';
+  if (pathname.startsWith('/dashboard/instructor')) return 'INSTRUCTOR';
+  if (pathname.startsWith('/dashboard/student')) return 'STUDENT';
   return null;
 }
 
@@ -54,5 +54,5 @@ export default async function proxy(req: NextRequest) {
 
 // Ensure the middleware strictly matches these protected paths
 export const config = {
-  matcher: ['/admin/:path*', '/instructor/:path*', '/student/:path*'],
+  matcher: ['/dashboard/admin/:path*', '/dashboard/instructor/:path*', '/dashboard/student/:path*'],
 };
