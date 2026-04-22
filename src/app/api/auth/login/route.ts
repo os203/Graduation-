@@ -56,13 +56,13 @@ export async function POST(req: Request) {
       },
     });
 
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isSecureEnv = process.env.NODE_ENV === 'production' && process.env.REQUIRE_HTTPS === 'true';
 
     response.cookies.set({
       name: 'token',
       value: accessToken,
       httpOnly: true,
-      secure: isProduction,
+      secure: isSecureEnv,
       sameSite: 'lax',
       path: '/',
       maxAge: 15 * 60, // 15 minutes
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       name: 'refresh_token',
       value: refreshToken,
       httpOnly: true,
-      secure: isProduction,
+      secure: isSecureEnv,
       sameSite: 'lax',
       path: '/',
       maxAge: 7 * 24 * 60 * 60,
